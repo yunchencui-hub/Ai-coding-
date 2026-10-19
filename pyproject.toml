@@ -1,0 +1,17 @@
+[project]
+name = "ai-coding-insights"
+version = "1.0.0"
+description = "ELI5 insights from 'Uncle Bob on Software Fundamentals in the Age of AI', plus the deterministic gates it describes"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "coverage>=7"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "example/tests"]
+pythonpath = [".", "example"]
+addopts = "-q"
+
+[tool.coverage.run]
+source = ["tools", "example/shop", "scripts"]
