@@ -1,0 +1,29 @@
+# <Project name>
+
+<!--
+  Keep this file SHORT (aim for under ~40 lines). Models attend most to the start
+  and end of their context; long rule lists get treated as guidelines.
+  Anything a tool can check belongs in `make check`, not here.
+-->
+
+## What this is
+<One or two sentences: what the system does and who uses it.>
+
+## What matters most here
+- <The one or two priorities that should shape every change, e.g.
+  "Correctness of money calculations beats speed of delivery.">
+
+## How to work
+- Do one story at a time. Keep changes small and reversible.
+- Put new code in the module that owns that responsibility. If none fits,
+  stop and ask; don't invent a new dependency direction.
+- Write tests for every behaviour you add or change.
+
+## Definition of done
+Your work is done only when this command exits 0:
+
+    make check
+
+If it fails, read the output, fix the cause (not the gate), and run it again.
+Never edit the gate configuration (thresholds, `fence.toml`) to make it pass.
+That's a design decision for a human.

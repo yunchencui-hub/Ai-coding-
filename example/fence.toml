@@ -1,0 +1,12 @@
+# The dependency fence for the example shop.
+# Every module must be listed; each lists the shop modules it may import.
+# Anything not listed is forbidden. Run: python tools/fence.py example/fence.toml
+
+package = "shop"
+source = "shop"
+
+[allow]
+cart = []                       # the core: depends on nothing
+pricing = ["cart"]
+storage = ["cart"]
+checkout = ["cart", "pricing"]  # not storage: checkout declares a CartStore interface instead

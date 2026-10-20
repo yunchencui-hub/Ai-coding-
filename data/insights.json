@@ -1,0 +1,321 @@
+{
+  "episode": {
+    "title": "LIVE: Uncle Bob on Software Fundamentals in the Age of AI",
+    "url": "https://www.youtube.com/live/zcLPGC-tvgk",
+    "host": "Matt Pocock",
+    "guest": "Robert C. Martin (Uncle Bob)",
+    "date": "2026-08-19",
+    "length_minutes": 57,
+    "provenance": "Reconstructed from secondary sources (community auto-caption concept ledger plus independent summaries); see SOURCES.md"
+  },
+  "chapters": [
+    {"number": 1, "title": "Fast hands, slow hands", "file": "insights/01-fast-hands-slow-hands.md"},
+    {"number": 2, "title": "Rules fade, gates don't", "file": "insights/02-rules-fade-gates-dont.md"},
+    {"number": 3, "title": "Boring tools come back", "file": "insights/03-boring-tools-come-back.md"},
+    {"number": 4, "title": "The relay race", "file": "insights/04-the-relay-race.md"},
+    {"number": 5, "title": "Rooms with doors", "file": "insights/05-rooms-with-doors.md"},
+    {"number": 6, "title": "Values, not rituals", "file": "insights/06-values-not-rituals.md"},
+    {"number": 7, "title": "The one-dollar house", "file": "insights/07-the-one-dollar-house.md"},
+    {"number": 8, "title": "The general and the sergeant", "file": "insights/08-the-general-and-the-sergeant.md"}
+  ],
+  "insights": [
+    {
+      "id": "I01", "chapter": 1, "title": "Get the human out of the code loop",
+      "eli5": "The robot cook is ten times faster than the chef, so the chef stops chopping and designs the kitchen instead.",
+      "takeaway": "Agents are fast at code and humans are slow; let agents own the code and move human effort to the scaffolding around it (gates, structure, spot checks).",
+      "speaker": "Robert C. Martin", "concepts": ["C1"], "confidence": "episode",
+      "tags": ["workflow", "human-role"],
+      "cards": [
+        {"q": "Why does reviewing every line of agent output defeat the point of using agents?", "a": "It caps the whole system at human reading speed. Replace most reading with automated checks and spot checks."},
+        {"q": "If the human stops reading the code, what replaces line-by-line review?", "a": "Deterministic evidence: CRAP scores, mutation testing, acceptance/QA scripts, plus occasional spot checks."}
+      ]
+    },
+    {
+      "id": "I02", "chapter": 1, "title": "Mess compounds, for agents too",
+      "eli5": "A cluttered kitchen makes even the robot drop things and go in circles.",
+      "takeaway": "Messy code degrades agent performance just like human performance: agents thrash, loop, break one thing while fixing another, and can give up.",
+      "speaker": "Robert C. Martin", "concepts": ["C2"], "confidence": "episode",
+      "tags": ["code-quality", "agents"],
+      "cards": [
+        {"q": "Is code quality irrelevant when agents write the code? Why or why not?", "a": "No. Mess compounds for agents too; past some level they thrash and stop making progress. Clean code is an input to agent productivity."}
+      ]
+    },
+    {
+      "id": "I03", "chapter": 1, "title": "The productivity margin is the scoreboard",
+      "eli5": "Inspections slow the robot down, and that's fine as long as robot plus inspections still beats the chef alone.",
+      "takeaway": "Gates trade agent speed for quality; keep agents-plus-gates faster than a human (he reports roughly 2x-5x) or you've lost the game.",
+      "speaker": "Robert C. Martin", "concepts": ["C5"], "confidence": "episode+anecdotal",
+      "tags": ["metrics", "workflow"],
+      "cards": [
+        {"q": "Define the productivity margin.", "a": "Human time for a task divided by agents-plus-gates time. It must stay above 1."},
+        {"q": "What margin does Uncle Bob report with his full gate stack, and how strong is that evidence?", "a": "Roughly 2x-5x (about an hour for his full pipeline vs about half a day for a human). It's his personal experience, not a controlled study."}
+      ]
+    },
+    {
+      "id": "I04", "chapter": 2, "title": "Steering decays",
+      "eli5": "Give a kid fifty rules and they'll remember the first and the last.",
+      "takeaway": "Long rule files get treated as guidelines because models attend to the start and end of context and lose the middle; trim prompts to a minimal priority zone.",
+      "speaker": "Robert C. Martin; Matt Pocock (smart zone / dumb zone, credited to Dex Horthy)", "concepts": ["C3"], "confidence": "episode+verified",
+      "tags": ["context", "prompting"],
+      "cards": [
+        {"q": "What is the 'lost in the middle' effect?", "a": "LLMs use information at the beginning and end of a long context better than information in the middle (a U-shaped curve; Liu et al., TACL 2024)."},
+        {"q": "What does Uncle Bob do about long instruction files?", "a": "Trims the initial prompt to the absolute minimum so it all sits in the high-attention zone, then enforces everything else with deterministic tools afterward."}
+      ]
+    },
+    {
+      "id": "I05", "chapter": 2, "title": "The deterministic-tool loop",
+      "eli5": "The playroom door only unlocks when the toys are in the box, so nobody needs to remember the rule.",
+      "takeaway": "Put agents in a loop: keep changing the code until the tool says it's okay. Gates don't decay, can't be argued with, and compose without diluting each other.",
+      "speaker": "Robert C. Martin", "concepts": ["C4"], "confidence": "episode",
+      "tags": ["gates", "workflow"],
+      "cards": [
+        {"q": "What's the difference between a rule and a gate?", "a": "A rule is prompt text the model may weight weakly. A gate is a deterministic pass/fail tool the agent must satisfy before it can finish."},
+        {"q": "Why do gates compose better than prompt rules?", "a": "Adding a gate doesn't weaken the others. Adding a prompt rule competes for attention and dilutes the rest."}
+      ]
+    },
+    {
+      "id": "I06", "chapter": 2, "title": "The reading asymmetry",
+      "eli5": "The robot reads every page you hand it; you never read the robot's thirty-page report.",
+      "takeaway": "Agents read what they're sent; humans don't read what agents write. Write long (but front-loaded) for agents, short for humans.",
+      "speaker": "Matt Pocock and Robert C. Martin", "concepts": ["C24"], "confidence": "episode",
+      "tags": ["communication"],
+      "cards": [
+        {"q": "How should the length of agent-facing and human-facing documents differ?", "a": "Agent-facing documents can be long (front-load what matters) because agents read them. Human-facing summaries must be short because humans don't read agent output."}
+      ]
+    },
+    {
+      "id": "I07", "chapter": 3, "title": "The CRAP metric as a gate",
+      "eli5": "A 'how scary is this function' score: twisty mazes with the lights off score highest.",
+      "takeaway": "CRAP = CC^2 x (1 - coverage)^3 + CC (Savoia & Evans, 2007). Once too tedious to apply by hand, now an agent-run gate: clean up anything over the threshold.",
+      "speaker": "Robert C. Martin", "concepts": ["C6"], "confidence": "episode+verified",
+      "tags": ["gates", "metrics", "testing"],
+      "cards": [
+        {"q": "Write the CRAP formula.", "a": "CRAP = CC^2 x (1 - coverage)^3 + CC, where CC is cyclomatic complexity and coverage is a fraction from 0 to 1."},
+        {"q": "What is the CRAP score of a fully tested function with CC = 6?", "a": "Exactly 6. At 100% coverage CRAP equals CC."},
+        {"q": "CC = 3, no tests. CRAP score? Does it pass a threshold of 6?", "a": "9 + 3 = 12. It fails."},
+        {"q": "CC = 7 and 100% coverage. Can it pass a threshold of 6?", "a": "No. CRAP = 7 > 6, so you must reduce complexity (split the function)."}
+      ]
+    },
+    {
+      "id": "I08", "chapter": 3, "title": "Mutation testing as the merciless hardener",
+      "eli5": "The teacher sneaks a typo into your essay to see whether your proofreader actually reads.",
+      "takeaway": "Make small code changes (mutants), run the tests, and require every mutant to be killed by a failing test. Once an overnight job, now about 30 minutes with agents plugging the holes.",
+      "speaker": "Robert C. Martin", "concepts": ["C7"], "confidence": "episode+verified",
+      "tags": ["gates", "testing"],
+      "cards": [
+        {"q": "What does it mean when a mutant 'survives'?", "a": "The code was changed and every test still passed, so no assertion pins down that behavior."},
+        {"q": "Your tests have 100% line coverage, yet a mutant survives. What does that tell you?", "a": "The line ran, but nothing checked its exact behavior. Coverage measures execution; mutation testing measures detection."},
+        {"q": "Why is a literal 100% mutation score usually unreachable?", "a": "Equivalent mutants: changes that don't alter behavior and so can't be killed. Excuse them with a written reason."}
+      ]
+    },
+    {
+      "id": "I09", "chapter": 3, "title": "Agents don't feel boredom",
+      "eli5": "The boring-but-great chores are back, because robots don't mind chores.",
+      "takeaway": "Revive good practices that were abandoned only because they were tedious for humans; labor cost was their only flaw.",
+      "speaker": "Robert C. Martin", "concepts": ["C8"], "confidence": "episode",
+      "tags": ["strategy", "agents"],
+      "cards": [
+        {"q": "What selection rule does the episode suggest for reviving old techniques?", "a": "Look for ideas that were sound but shelved only because they were too tedious or slow for humans. Agents remove that cost."}
+      ]
+    },
+    {
+      "id": "I10", "chapter": 4, "title": "The five-seat relay",
+      "eli5": "A relay race: each runner does one leg and hands over the baton.",
+      "takeaway": "Specifier (Gherkin + human-perspective QA procedure) -> Coder (unit tests + code + passing Gherkin) -> Cleaner (CRAP + review) -> Hardener (mutation testing) -> QA (executable QA script).",
+      "speaker": "Robert C. Martin", "concepts": ["C9"], "confidence": "episode+verified",
+      "tags": ["pipeline", "agents"],
+      "cards": [
+        {"q": "Name the five seats of the relay in order.", "a": "Specifier, Coder, Cleaner, Hardener, QA."},
+        {"q": "What does the specifier produce?", "a": "A Gherkin (given/when/then) acceptance test and a QA procedure written from the point of view of a human using the system through its UI."},
+        {"q": "Which seat runs CRAP and which runs mutation testing?", "a": "The cleaner runs CRAP analysis and code review; the hardener runs mutation testing."}
+      ]
+    },
+    {
+      "id": "I11", "chapter": 4, "title": "Born, do the task, die",
+      "eli5": "Fresh legs for every leg of the race.",
+      "takeaway": "Each agent is created for one task and then exits, so the next starts with a clean, small context. Cost: slow startup and rebuilding context. Benefit: focus and parallel coders.",
+      "speaker": "Robert C. Martin", "concepts": ["C10"], "confidence": "episode",
+      "tags": ["context", "agents"],
+      "cards": [
+        {"q": "What are the benefit and the cost of single-task, fresh-context agents?", "a": "Benefit: small focused contexts (less lost-in-the-middle) and parallelism. Cost: startup time (around 10-15 s) and rebuilding understanding of the codebase each time."}
+      ]
+    },
+    {
+      "id": "I12", "chapter": 4, "title": "A context window has momentum",
+      "eli5": "Once someone mentions the soap opera, every coffee joke becomes a soap-opera joke.",
+      "takeaway": "Early steering sets a trajectory that the rest of the session follows; the only reliable reset is a fresh context.",
+      "speaker": "Matt Pocock (trajectory); Robert C. Martin (coffee/soap-opera parable)", "concepts": ["C11"], "confidence": "episode",
+      "tags": ["context"],
+      "cards": [
+        {"q": "An agent session drifted into a bad approach. Keep correcting it, or restart?", "a": "Usually restart with better instructions. A session's trajectory persists, and only clearing the context clears it."}
+      ]
+    },
+    {
+      "id": "I13", "chapter": 5, "title": "Interrogate the agents about structure",
+      "eli5": "Ask the robot to draw the house's floor plan. Expect a fright, then draw the real plan yourself.",
+      "takeaway": "Ask agents to describe module structure and dependencies, expect alarming answers, then design the module structure yourself and give agents an implementation plan. Automating this step hasn't worked for him yet.",
+      "speaker": "Robert C. Martin", "concepts": ["C12"], "confidence": "episode",
+      "tags": ["architecture", "human-role"],
+      "cards": [
+        {"q": "In Uncle Bob's workflow, who designs the module structure?", "a": "The human. He interrogates agents about the existing structure, designs the target himself, and hands over an implementation plan."}
+      ]
+    },
+    {
+      "id": "I14", "chapter": 5, "title": "Agents build your instruments",
+      "eli5": "Ask the robot to build you a window so you can watch the robots work.",
+      "takeaway": "Have agents build supervision tools for you, such as an architecture viewer showing modules, dependency direction and the code inside.",
+      "speaker": "Robert C. Martin", "concepts": ["C13"], "confidence": "episode",
+      "tags": ["tooling", "architecture"],
+      "cards": [
+        {"q": "What instrument did Uncle Bob have his agents build to supervise structure?", "a": "An architecture viewer: a clickable UML-style diagram of modules, dependency directions, submodules and code."}
+      ]
+    },
+    {
+      "id": "I15", "chapter": 5, "title": "The dependency fence",
+      "eli5": "House rules for doors (the kitchen never opens into the garage), with a guard who checks every trip.",
+      "takeaway": "A tight spec file states which module may depend on which; a checker fails the build on violations. The repairs: invert the dependency, insert an interface, or split the module.",
+      "speaker": "Robert C. Martin", "concepts": ["C14"], "confidence": "episode",
+      "tags": ["gates", "architecture"],
+      "cards": [
+        {"q": "Name the three standard repairs when the dependency fence fails.", "a": "Invert the dependency, insert an interface, or split the module."},
+        {"q": "Why should agents not be allowed to edit the fence file to make the gate pass?", "a": "Changing allowed dependencies is a design decision that belongs to the human. Otherwise the gate means nothing."}
+      ]
+    },
+    {
+      "id": "I16", "chapter": 5, "title": "Compartmentalization serves models too",
+      "eli5": "A house with rooms beats one giant room, for people and for robots.",
+      "takeaway": "Well-partitioned code with disciplined interfaces is graspable by models for the same reason it is for humans; an overstuffed module confuses the agent.",
+      "speaker": "Robert C. Martin", "concepts": ["C15"], "confidence": "episode",
+      "tags": ["architecture", "context"],
+      "cards": [
+        {"q": "Why does module partitioning help agents?", "a": "Models compartmentalize like humans (they're modeled after us). Focused modules keep the relevant context small and unpolluted."}
+      ]
+    },
+    {
+      "id": "I17", "chapter": 5, "title": "Deep modules are context economy",
+      "eli5": "A TV remote: a few buttons outside, lots of electronics inside, and you never open it.",
+      "takeaway": "Small interfaces over large implementations (Ousterhout) let agents work from the interface plus tests without loading internals. That's an advantage and a danger, since it relies on the code underneath being consistent.",
+      "speaker": "Matt Pocock (proposal) and Robert C. Martin (agreement)", "concepts": ["C16"], "confidence": "episode+verified",
+      "tags": ["architecture", "context"],
+      "cards": [
+        {"q": "What is a deep module and why do agents benefit?", "a": "A module with a small, simple interface hiding a large implementation. Agents can use it from the interface and tests without spending context on internals."},
+        {"q": "What danger did Uncle Bob flag about agents relying on interfaces?", "a": "They may not read the code beneath. That's fine only if the implementation is consistent with the interface."}
+      ]
+    },
+    {
+      "id": "I18", "chapter": 6, "title": "Values transfer, disciplines don't, thresholds move",
+      "eli5": "We want clean teeth (value), not necessarily the two-minute brushing song (ritual), and we check the teeth.",
+      "takeaway": "Impose human values (tested, clean, structured) on agents, but not human disciplines like strict TDD. Thresholds can move: CRAP below ~4 for humans, 6 (maybe 8) for agents.",
+      "speaker": "Robert C. Martin", "concepts": ["C17"], "confidence": "episode+anecdotal",
+      "tags": ["values", "testing", "metrics"],
+      "cards": [
+        {"q": "Using TDD, explain 'values, not disciplines'.", "a": "Value: every behavior is tested. Discipline: the red-green-refactor micro-cycle. Agents get the value (enforced by gates) but not the ritual."},
+        {"q": "What CRAP thresholds does Uncle Bob use for humans vs agents?", "a": "Below about 4 for humans; 6 for agents, considering 8."},
+        {"q": "Why does he loosen the threshold for agents, and is that established?", "a": "He says agents have a huge, accurate short-term memory. It's his hypothesis, not independently verified."}
+      ]
+    },
+    {
+      "id": "I19", "chapter": 6, "title": "Agent debates are hypothesis generators",
+      "eli5": "Asking the robot whether your rule is good is like shaking a magic 8-ball: fun, not proof.",
+      "takeaway": "Debating with agents can surface ideas, but you can't trust the outcome; settle questions with measurements.",
+      "speaker": "Robert C. Martin", "concepts": ["C18"], "confidence": "episode",
+      "tags": ["judgment"],
+      "cards": [
+        {"q": "An agent argues convincingly that your threshold should be 8. What do you do?", "a": "Treat it as a hypothesis: try 8 and measure thrash, defects and margin. An agent debate is not evidence."}
+      ]
+    },
+    {
+      "id": "I20", "chapter": 7, "title": "Heavy up-front specs are waterfall replayed",
+      "eli5": "Drawing blueprints for months for a Lego house you could rebuild in seconds.",
+      "takeaway": "The urge to specify everything and hand it to agents repeats the 1970s waterfall temptation; agent plans look beautiful and fall apart in execution. He is skeptical of spec-driven development.",
+      "speaker": "Robert C. Martin", "concepts": ["C19"], "confidence": "episode",
+      "tags": ["planning"],
+      "cards": [
+        {"q": "Why does Uncle Bob compare heavy agent specs to waterfall?", "a": "Both assume you can specify everything up front. Agents hit unanticipated cases, go off course, and you have to back up and re-plan."}
+      ]
+    },
+    {
+      "id": "I21", "chapter": 7, "title": "Agile small batches for agents",
+      "eli5": "Build a bit, look, adjust; build a bit more.",
+      "takeaway": "Let agents do a story or two, review the architecture (possibly by hand), then continue. The manual organizing step may never fully go away.",
+      "speaker": "Robert C. Martin", "concepts": ["C20"], "confidence": "episode",
+      "tags": ["planning", "workflow"],
+      "cards": [
+        {"q": "How often does Uncle Bob step in to look at architecture?", "a": "After every story or two, then he lets the agents continue."}
+      ]
+    },
+    {
+      "id": "I22", "chapter": 7, "title": "The one-dollar house",
+      "eli5": "If every change to your house cost a dollar, you'd fiddle until it looked right instead of hiring an architect for a perfect plan.",
+      "takeaway": "Agents drove the cost of code change close to zero, which collapses the case for expensive up-front planning.",
+      "speaker": "Robert C. Martin", "concepts": ["C21"], "confidence": "episode",
+      "tags": ["planning"],
+      "cards": [
+        {"q": "State the $1-house argument in one sentence.", "a": "When change is nearly free, expensive up-front design (which exists to avoid costly change) stops paying for itself, so you iterate."},
+        {"q": "Where does the $1-house argument NOT apply well?", "a": "Wherever change is still expensive: data migrations, public APIs, hardware, regulated systems, external users."}
+      ]
+    },
+    {
+      "id": "I23", "chapter": 7, "title": "Specs are ephemeral; the result is the spec",
+      "eli5": "Scaffolding comes down once the house is built; the house shows what you wanted.",
+      "takeaway": "Stories, Gherkin and plans are used and discarded; the working end result is the specification. Source code used to play that role and no longer does in the same way.",
+      "speaker": "Robert C. Martin (answering Matt Pocock)", "concepts": ["C22"], "confidence": "episode",
+      "tags": ["planning", "specs"],
+      "cards": [
+        {"q": "Do Uncle Bob's specs persist? What serves as the specification?", "a": "No, they're ephemeral. The working end result serves as the specification."}
+      ]
+    },
+    {
+      "id": "I24", "chapter": 7, "title": "Point, don't download",
+      "eli5": "Show the robot your friend's treehouse and say: like that, but for my tree.",
+      "takeaway": "Don't download someone's tools; point your agents at them as exemplars and have them build versions tailored to you. An exemplar specifies the essence better than a description.",
+      "speaker": "Robert C. Martin", "concepts": ["C23"], "confidence": "episode",
+      "tags": ["tooling", "specs"],
+      "cards": [
+        {"q": "Uncle Bob published his CRAP tool, mutation tester and harness. What does he say to do with them?", "a": "Don't download them. Point your agents at them, let them study the tools, and have them build your own customized versions."}
+      ]
+    },
+    {
+      "id": "I25", "chapter": 8, "title": "Agents are sergeants, humans are generals",
+      "eli5": "The sergeant gets the squad across the river; the general decides which river.",
+      "takeaway": "Agents are very good at tactical programming and very bad at strategic programming (Ousterhout's distinction); humans keep the strategy.",
+      "speaker": "Matt Pocock (framing) and Robert C. Martin (agreement)", "concepts": ["C25"], "confidence": "episode+verified",
+      "tags": ["human-role", "strategy"],
+      "cards": [
+        {"q": "Tactical vs strategic programming: which do agents do well?", "a": "Tactical (getting this change working). Strategic design investment remains the human's job."}
+      ]
+    },
+    {
+      "id": "I26", "chapter": 8, "title": "Human as subagent: the education gauntlet",
+      "eli5": "Before you drive with an autopilot, learn to drive, then drive under the same checks the autopilot gets.",
+      "takeaway": "Learn to code by hand (about a year), then work as a 'human subagent' given agent-style tasks and gates for months, then run agents under supervision. Underneath sits a ladder from binary and assembly through C and Python to agents.",
+      "speaker": "Robert C. Martin; Matt Pocock (faster feedback loops)", "concepts": ["C26"], "confidence": "episode+anecdotal",
+      "tags": ["education", "human-role"],
+      "cards": [
+        {"q": "Describe the 'human as subagent' stage.", "a": "A junior receives the same tasks agents get and goes through the same deterministic gates under a lead, for months, before being trusted to run agents."},
+        {"q": "What is the learning ladder Uncle Bob describes?", "a": "Binary, assembly, a language like C, a higher-level language like Python, then strategically running an agent under supervision."}
+      ]
+    },
+    {
+      "id": "I27", "chapter": 8, "title": "Recognizing thrash is the key skill",
+      "eli5": "A swim coach can tell playing from drowning because they've struggled in the water themselves.",
+      "takeaway": "Supervisors must recognize when agents are struggling, which takes having struggled yourself. Novices should read the old books (DeMarco, Yourdon, The Pragmatic Programmer) and filter out what's dated.",
+      "speaker": "Robert C. Martin", "concepts": ["C27"], "confidence": "episode",
+      "tags": ["human-role", "education"],
+      "cards": [
+        {"q": "Why can an experienced engineer spot agent thrash that a novice misses?", "a": "They've been through the same struggle, so they recognize looping, fix-one-break-another and spinning."},
+        {"q": "Which 'old books' does Uncle Bob recommend?", "a": "Works by Tom DeMarco and Ed Yourdon, and The Pragmatic Programmer, filtering out what's dated."}
+      ]
+    },
+    {
+      "id": "I28", "chapter": 8, "title": "Fundamentals persist up every abstraction rung",
+      "eli5": "Every new tool makes people think the old rules are dead; a year later they're picking them back up off the floor.",
+      "takeaway": "Fundamentals organize complexity so it can be understood by humans and by models modeled on humans. Every abstraction jump (assembly, compilers, models) brought the same panic, and the rules returned.",
+      "speaker": "Robert C. Martin", "concepts": ["C28"], "confidence": "episode",
+      "tags": ["fundamentals"],
+      "cards": [
+        {"q": "Why do software fundamentals still matter when models write the code?", "a": "They organize complexity into understandable pieces, and models benefit from the same organization as humans. Discarded rules tend to come back."}
+      ]
+    }
+  ]
+}
